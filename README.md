@@ -22,6 +22,10 @@ api
 we don't need to install everything in order for our application to run. This also gives us a common platform (like the 
 JVM for instance) for us to be using the same applications even though are environments are different.
    * Follow the installation guide [here](https://www.docker.com/get-started) _"Yes that does mean creating an account"_
+   **Note:** You can't use docker ce with **WINDOWS HOME EDITION**
+* [Docker-Compose](https://docs.docker.com/compose/compose-file/) - A tool that wraps up all the docker commands to set 
+need to set up the environment into one easy command
+  * Follow the installation guide [here](https://docs.docker.com/compose/install/)
 * [PostgreSQL](https://www.postgresql.org) - This is an open source relational database(like MYSQL) that we will use to 
 store our information in.
    * No need to install anything here, if docker is installed, docker will manage downloading and running this 
