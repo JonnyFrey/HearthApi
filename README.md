@@ -41,3 +41,34 @@ git clone git@github.com:swagger-api/swagger-ui
 mkdir -p hearthapi/public/swagger
 cp -R swagger-ui/dist/* hearthapi/public/swagger
 ```
+    
+## Where to get the hearthstone data?
+All the data can be found at [HearthSim/hsdata](https://github.com/HearthSim/hsdata)
+Process that I took in order to process/observe the data
+```bash
+# https://github.com/HearthSim/python-hearthstone
+docker run -it -v $(pwd)/app:/app/ python:3.6.8 /bin/bash
+cd app
+git clone https://github.com/HearthSim/HearthstoneJSON.git
+pip install hearthstone
+apt-get update
+apt-get install tree
+```
+How do I inserted the data into the DB (one off - will supply a code later)
+```bash
+spark-shell --packages 'postgresql:postgresql:9.1-901-1.jdbc4'
+```
+```scala
+val df = spark.read.option("inferSchema", "true").json("cards.json")
+
+import java.util.Properties
+def buildProps(properties: (String, String)*): java.util.Properties = { val jProps = new java.util.Properties(); properties.foreach{case (key, value) => jProps.put(key, value)}; jProps }
+val props = buildProps("user" -> "???", "password" -> "???", "driver" -> "org.postgresql.Driver")
+def writeDF(table: String, data: org.apache.spark.sql.DataFrame) = data.write.jdbc("jdbc:postgresql://???:5432/hearth-api", table, props)
+writeDF("cards", df.select('id, 'name, 'type, 'multiClassGroup, 'cardClass, 'cost, 'overload, 'attack, 'health, 'armor, 'durability, 'spellDamage, 'questReward, 'rarity, 'set, 'text, 'flavor, 'hideStats))
+writeDF("card_meta", df.select('id, 'artist, 'collectible, 'collectionText, 'elite, 'faction, 'howToEarn, 'howToEarnGolden, 'puzzleType, 'race, 'targetingArrowText))
+writeDF("referencedTags", df.select('id, explode('referencedTags) as "referencedTag"))
+writeDF("mechanics", df.select('id, explode('mechanics) as "mechanic"))
+writeDF("extra_classes", df.select('id, explode('classes) as "class").filter('class.isNotNull))
+writeDF("entourages", df.select('id, 'entourage).filter('entourage.isNotNull).select('id, explode('entourage) as "entourage"))
+```
