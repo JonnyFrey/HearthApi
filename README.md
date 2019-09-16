@@ -30,3 +30,10 @@ store our information in.
 ## How to run the application using sbt
 1. Either execute `sbt run` in a terminal or in the sbt shell in IntelliJ execute `run`
 1. Open up a browser and go to the link http://localhost:9000 and the example page will show there
+
+## How to add/update the Swagger UI
+```bash
+git clone git@github.com:swagger-api/swagger-ui
+mkdir -p hearthapi/public/swagger
+cp -R swagger-ui/dist/* hearthapi/public/swagger
+```
