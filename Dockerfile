@@ -26,4 +26,4 @@ COPY --from=builder /build/hearth-api/ /srv/
 
 EXPOSE 9000
 
-CMD /srv/bin/hearthapi -Dplay.evolutions.db.default.autoApply=true
+CMD /srv/bin/hearthapi
