@@ -13,3 +13,6 @@ GET     /assets/*file       controllers.Assets.versioned(path="/public", file: A
 GET     /swagger.json       controllers.ApiHelpController.getResources
 GET     /docs/              controllers.Assets.at(path="/public/swagger",file="index.html")
 GET     /docs/*file         controllers.Assets.at(path="/public/swagger",file)
+
+# Card endpoints
+GET     /cards/:name              controllers.CardController.cards(name)
