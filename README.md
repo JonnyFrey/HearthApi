@@ -32,8 +32,17 @@ store our information in.
      application
  
 ## How to run the application using sbt
-1. Either execute `sbt run` in a terminal or in the sbt shell in IntelliJ execute `run`
-1. Open up a browser and go to the link http://localhost:9000 and the example page will show there
+1. You will also need to set up environment variables in order to connect to the database, as we are not storing the url, username, or password in files pushed to Github.
+  Create a file called ".env" in the root project folder.
+
+    Then, fill out the following information:
+    ```
+    export DB_URL=""
+    export DB_USER=""
+    export DB_PASS=""
+    ```
+2. Either execute `sbt run` in a terminal or in the sbt shell in IntelliJ execute `run`
+3. Open up a browser and go to the link http://localhost:9000 and the example page will show there
 
 ## How to add/update the Swagger UI
 ```bash
